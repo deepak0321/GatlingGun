@@ -6,12 +6,16 @@ import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 
-class GetAPITest extends Simulation {
+class DeleteAPITest extends Simulation{
 
-  val httpProtocol: HttpProtocolBuilder = http.baseUrl("https://petstore.swagger.io")
+  val httpProtocol : HttpProtocolBuilder = http.baseUrl("https://petstore.swagger.io")
 
-  val scn: ScenarioBuilder = scenario(name = "Get Pet").exec(http(requestName = "Get Pet Request").get("/v2/pet/291493"))
+  val scn : ScenarioBuilder = scenario("Delete Pet")
+    .exec(http("Delete Pet Request").delete("/v2/pet/291493")
+      .check(status is 200)
+    )
 
   setUp(scn.inject(atOnceUsers(1)).protocols(httpProtocol))
+
 
 }
